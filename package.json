@@ -1,23 +1,23 @@
 {
-  "name": "ai-image-studio",
-  "version": "1.0.0",
-  "description": "AI Image Generator using Gemini & Stable Diffusion",
-  "main": "server.js",
+  "name": "chỉnh-sửa-ảnh-ai-mr-t",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit"
   },
-  "keywords": ["ai", "image", "generator", "gemini"],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "multer": "^1.4.4",
-    "@google/generative-ai": "^0.7.0",
-    "dotenv": "^16.3.1"
+    "react-dom": "^19.1.1",
+    "@google/genai": "^1.20.0",
+    "react": "^19.1.1"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
   }
 }
