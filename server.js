@@ -30,7 +30,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 async function optimizePrompt(userPrompt) {
     try {
         // Dùng model flash vì nó nhẹ, nhanh và miễn phí cao
-        const model = genAI.getGenerativeModel({ model: "gemini-3.6-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
         
         const systemInstruction = `Bạn là một Prompt Engineer chuyên nghiệp cho Midjourney và Stable Diffusion. 
         Nhiệm vụ của bạn là dịch ý tưởng của người dùng sang tiếng Anh, sau đó thêm các từ khóa nghệ thuật để bức ảnh trở nên lộng lẫy, chi tiết và đẹp mắt nhất.
@@ -41,7 +41,7 @@ async function optimizePrompt(userPrompt) {
         return result.response.text().trim();
     } catch (error) {
         console.error("Lỗi Gemini:", error);
-        throw new Error("Không thể tối ưu prompt qua Gemini.", error.toString());
+        throw new Error("Không thể tối ưu prompt qua Gemini.");
     }
 }
 
