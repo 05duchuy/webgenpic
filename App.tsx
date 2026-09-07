@@ -213,27 +213,12 @@ export default function App() {
 
     // Check for API key on mount
     useEffect(() => {
-        const checkApiKey = async () => {
-            if (window.aistudio) {
-                const selected = await window.aistudio.hasSelectedApiKey();
-                setHasApiKey(selected);
-            }
-        };
-        checkApiKey();
+        setHasApiKey(true);
     }, []);
 
     const ensureApiKey = async (): Promise<boolean> => {
-        if (window.aistudio) {
-            const selected = await window.aistudio.hasSelectedApiKey();
-            if (!selected) {
-                await window.aistudio.openSelectKey();
-                // Assume success after opening dialog as per guidelines
-                setHasApiKey(true);
-                return true;
-            }
-            return true;
-        }
-        return true; // Fallback for environments without aistudio
+        setHasApiKey(true);
+        return true;
     };
     
     useEffect(() => {

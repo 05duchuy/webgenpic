@@ -1,9 +1,15 @@
 import { GoogleGenAI, Modality, GenerateContentResponse, GenerateImagesResponse } from "@google/genai";
 import { AspectRatio } from '../types';
-
+const getApiKey = (): string => {
+    const apiKey = import.meta.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        console.warn("CẢNH BÁO: Chưa tìm thấy VITE_GEMINI_API_KEY trong biến môi trường!");
+    }
+    return apiKey || '';
+};
 // Helper to get the AI instance with the latest API key
 const getAI = () => {
-    const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY;
+    const apiKey = getApiKey();
     if (!apiKey) {
         throw new Error("API key is missing. Please select an API key.");
     }
