@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
+const path = require('path'); // Thêm module path để quản lý đường dẫn
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -10,6 +11,12 @@ const port = process.env.PORT || 3000;
 // Cấu hình Middleware
 app.use(cors()); // Cho phép Frontend gọi API
 app.use(express.json());
+
+// ==========================================
+// PHỤC VỤ GIAO DIỆN WEB (FRONTEND)
+// ==========================================
+// Lệnh này giúp server tự động tìm và trả về file index.html cùng các file tĩnh (CSS, JS, ảnh) trong thư mục "public"
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Cấu hình Multer để lưu file tạm vào RAM (bộ nhớ đệm)
 const upload = multer({ storage: multer.memoryStorage() });
@@ -94,7 +101,6 @@ app.post('/api/generate', upload.single('image'), async (req, res) => {
             // LƯU Ý DÀNH CHO BẠN:
             // Tính năng Image-to-Image trên API miễn phí của Hugging Face khá phức tạp (cần cấu hình model InstructPix2Pix và gửi binary data). 
             // Để hệ thống không bị crash, ở phiên bản này, nếu user up ảnh, ta sẽ ưu tiên lấy prompt đã tối ưu để generate ảnh mới.
-            // Nếu bạn muốn làm Image-to-Image thực thụ, bạn sẽ cần dùng 1 API chuyên dụng hơn (như Replicate) thay vì Hugging Face free tier.
             console.log(`[4] Có file ảnh đính kèm (Tính năng Image-to-Image đang trong giai đoạn dev). Đang dùng Text-to-Image làm mặc định...`);
             imageBase64 = await generateImage(optimizedPrompt);
         } else {
@@ -113,6 +119,15 @@ app.post('/api/generate', upload.single('image'), async (req, res) => {
         console.error(error);
         res.status(500).json({ message: error.message || "Lỗi máy chủ nội bộ." });
     }
+});
+
+// ==========================================
+// CATCH-ALL ROUTE (Dự phòng)
+// ==========================================
+// Đảm bảo rằng nếu người dùng gõ đường dẫn sai hoặc load lại trang, 
+// họ vẫn sẽ được trả về file index.html nằm trong thư mục public.
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Chạy server
