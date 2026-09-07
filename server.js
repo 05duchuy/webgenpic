@@ -41,7 +41,7 @@ async function optimizePrompt(userPrompt) {
         return result.response.text().trim();
     } catch (error) {
         console.error("Lỗi Gemini:", error);
-        throw new Error("Không thể tối ưu prompt qua Gemini.");
+        throw new Error("Không thể tối ưu prompt qua Gemini.", error);
     }
 }
 
